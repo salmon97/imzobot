@@ -20,10 +20,12 @@ public class Bot extends TelegramLongPollingBot {
 
     boolean uz = true;
 
+    String name = "";
+
     @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {
-        System.out.println(update);
+//        System.out.println(update);
         if (update.hasMessage()) {
             if (update.getMessage().hasPhoto()) {
                 SendPhoto sendPhoto = new SendPhoto();
@@ -226,18 +228,35 @@ public class Bot extends TelegramLongPollingBot {
                 level = 12;
                 break;
             case 12:
-
+                if (update.hasMessage()) {
+                    if (update.getMessage().hasText()) {
+                        name = update.getMessage().getText();
+                        if (uz)
+                            execute(botService.shareContact(update, Constants.SHARE_CONTACT_UZ, Constants.SHARE_CONTACT_TEXT_UZ));
+                        else
+                            execute(botService.shareContact(update, Constants.SHARE_CONTACT_RU, Constants.SHARE_CONTACT_TEXT_RU));
+                        level = 13;
+                    }
+                }
+                break;
+            case 13:
+                if (uz)
+                    execute(botService.saveContact_Uz(update, name, Constants.FINISH_TEXT_UZ));
+                else
+                    execute(botService.saveContact_Ru(update, name, Constants.FINISH_TEXT_RU));
                 break;
         }
     }
 
     @Override
     public String getBotUsername() {
-        return "tests01_bot";
+        return "imzoandijon_BOT";
     }
 
     @Override
     public String getBotToken() {
-        return "1633731938:AAEKj4tysrkx9gMxh01dMNYTLFNNqhGQvOA";
+        return "1677304570:AAG7y0TMb4XUBD1nvcbQxuwuryUJTbXeblg";
+//        1176443139:AAFSkJNZVUUrumJUNhII2AAiKvoc9alcmmk myFood1_bot
+//        1633731938:AAEKj4tysrkx9gMxh01dMNYTLFNNqhGQvOA tests01_bot
     }
 }

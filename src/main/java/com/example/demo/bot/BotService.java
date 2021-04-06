@@ -23,6 +23,8 @@ public class BotService {
     @Autowired
     Bot bot;
 
+//    --1001386407092 group  chat id
+
     public SendMessage shareContact(Update update, String text,String text1) {
         SendMessage sendMessage = new SendMessage()
                 .setChatId(update.getMessage().getChatId())
@@ -42,20 +44,91 @@ public class BotService {
         return sendMessage;
     }
 
-    public SendMessage saveContact(Update update) {
+    public SendMessage saveContact_Uz(Update update,String name,String text) throws TelegramApiException {
         SendMessage sendMessage = new SendMessage()
                 .setParseMode(ParseMode.MARKDOWN)
                 .setChatId(update.getMessage().getChatId());
+        sendMessage.setText(text);
         String phone;
         if (update.getMessage().hasContact()) {
             phone = update.getMessage().getContact().getPhoneNumber();
         } else {
             phone = update.getMessage().getText();
         }
-        String phoneNumber = phone.startsWith("+") ? phone : "+" + phone;
-        ReplyKeyboardRemove replyKeyboardRemove = new ReplyKeyboardRemove();
-        sendMessage.setReplyMarkup(replyKeyboardRemove);
+        String phoneNumber = phone.startsWith("+") ? phone : phone.startsWith("998") ? "+" +phone : "+998" +phone;
+
+
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        List<KeyboardRow> rows = new ArrayList<>();
+        KeyboardRow col = new KeyboardRow();
+        KeyboardRow col2 = new KeyboardRow();
+        KeyboardRow col3 = new KeyboardRow();
+        KeyboardButton button1 = new KeyboardButton(Constants.PRODUCT);
+        KeyboardButton button2 = new KeyboardButton(Constants.WITH_US);
+        KeyboardButton button3 = new KeyboardButton(Constants.ABOUT_US);
+        KeyboardButton button4 = new KeyboardButton(Constants.ORDER);
+        KeyboardButton button5 = new KeyboardButton(Constants.orqaga);
+        col.add(button1);
+        col.add(button2);
+        col2.add(button3);
+        col2.add(button4);
+        col3.add(button5);
+        rows.add(col);
+        rows.add(col2);
+        rows.add(col3);
+        replyKeyboardMarkup.setKeyboard(rows);
+
+        sendMessage.setReplyMarkup(replyKeyboardMarkup);
+        SendMessage sendMessage1 = new SendMessage();
+        sendMessage1.setChatId("-1001386407092");
+        sendMessage1.setText("Klient \nIsmi - "+ name+"\nTel num - "+phoneNumber);
+        bot.execute(sendMessage1);
         return sendMessage;
+    }
+
+    public SendMessage saveContact_Ru(Update update,String name,String text) throws TelegramApiException {
+        SendMessage sendMessage = new SendMessage()
+                .setParseMode(ParseMode.MARKDOWN)
+                .setChatId(update.getMessage().getChatId());
+        sendMessage.setText(text);
+        String phone;
+        if (update.getMessage().hasContact()) {
+            phone = update.getMessage().getContact().getPhoneNumber();
+        } else {
+            phone = update.getMessage().getText();
+        }
+        String phoneNumber = phone.startsWith("+") ? phone : phone.startsWith("998") ? "+" +phone : "+998" +phone;
+
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        List<KeyboardRow> rows = new ArrayList<>();
+        KeyboardRow col = new KeyboardRow();
+        KeyboardRow col2 = new KeyboardRow();
+        KeyboardRow col3 = new KeyboardRow();
+        KeyboardButton button1 = new KeyboardButton(Constants.PRODUCT_Ru);
+        KeyboardButton button2 = new KeyboardButton(Constants.WITH_US_Ru);
+        KeyboardButton button3 = new KeyboardButton(Constants.ABOUT_US_Ru);
+        KeyboardButton button4 = new KeyboardButton(Constants.ORDER_Ru);
+        KeyboardButton button5 = new KeyboardButton(Constants.nazad);
+        col.add(button1);
+        col.add(button2);
+        col2.add(button3);
+        col2.add(button4);
+        col3.add(button5);
+        rows.add(col);
+        rows.add(col2);
+        rows.add(col3);
+        replyKeyboardMarkup.setKeyboard(rows);
+
+        sendMessage.setReplyMarkup(replyKeyboardMarkup);
+        SendMessage sendMessage1 = new SendMessage();
+        sendMessage1.setChatId("-1001386407092");
+        sendMessage1.setText("Klient \nIsmi - "+ name+"\nTel num - "+phoneNumber);
+        bot.execute(sendMessage1);
+    return sendMessage;
     }
 
     public SendMessage order(Update update, String text) {

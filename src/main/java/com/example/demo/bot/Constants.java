@@ -3,6 +3,8 @@ package com.example.demo.bot;
 public interface Constants {
 
 
+    String FINISH_TEXT_UZ = "Bizning xodimlarimiz siz bilan bog'lanishadi!";
+    String FINISH_TEXT_RU = "Наши сотрудники свяжутся с вами!";
     String SHARE_CONTACT_UZ = "Kontaktni yuborish";
     String SHARE_CONTACT_RU = "Отправить контакт";
 
