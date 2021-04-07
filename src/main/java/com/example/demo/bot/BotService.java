@@ -24,6 +24,7 @@ public class BotService {
     Bot bot;
 
 //    --1001386407092 group  chat id
+//    --1001290377832 ozimiki group  chat id
 
     public SendMessage shareContact(Update update, String text,String text1) {
         SendMessage sendMessage = new SendMessage()

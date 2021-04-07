@@ -25,67 +25,62 @@ public class Bot extends TelegramLongPollingBot {
     @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {
-//        System.out.println(update);
+        System.out.println(update);
         if (update.hasMessage()) {
-            if (update.getMessage().hasPhoto()) {
-                SendPhoto sendPhoto = new SendPhoto();
-                sendPhoto.setChatId(update.getMessage().getChatId());
-                sendPhoto.setPhoto(update.getMessage().getPhoto().get(0).getFileId());
-                sendPhoto.setCaption(update.getMessage().getPhoto().get(0).getFileId());
-                execute(sendPhoto);
-            }
-            if (update.getMessage().hasText()) {
-                String data = update.getMessage().getText();
-                if (data.equals("/start")) {
-                    level = 99;
-                }
-                if (data.equals(Constants.RU)) {
-                    uz = false;
-                    level = 1;
-                }
-                if (data.equals(Constants.UZ)) {
-                    uz = true;
-                    level = 1;
-                }
-                if (data.equals(Constants.PRODUCT) || data.equals(Constants.PRODUCT_Ru)) {
-                    level = 2;
-                }
-                if (data.equals(Constants.WITH_US) || data.equals(Constants.WITH_US_Ru)) {
-                    level = 4;
-                }
-                if (data.equals(Constants.ORDER) || data.equals(Constants.ORDER_Ru)) {
-                    level = 11;
-                }
-
-                if (data.equals(Constants.orqaga) || data.equals(Constants.nazad)) {
-                    if (level == 1) {
+            if (!update.getMessage().getChat().getId().toString().startsWith("-")){
+                if (update.getMessage().hasText()) {
+                    String data = update.getMessage().getText();
+                    if (data.equals("/start")) {
                         level = 99;
-                    } else {
+                    }
+                    if (data.equals(Constants.RU)) {
+                        uz = false;
                         level = 1;
                     }
-                }
-                if (data.equals(Constants.quatro)) {
-                    level = 3;
-                }
-                if (data.equals(Constants.termo65)) {
-                    level = 6;
-                }
-                if (data.equals(Constants.termo78)) {
-                    level = 7;
-                }
-                if (data.equals(Constants.chempion)) {
-                    level = 10;
-                }
-                if (data.equals(Constants.engerl7000)) {
-                    level = 9;
-                }
-                if (data.equals(Constants.engerl7600)) {
-                    level = 8;
-                }
-                if (data.equals(Constants.trio)) {
-                    level = 5;
-                }
+                    if (data.equals(Constants.UZ)) {
+                        uz = true;
+                        level = 1;
+                    }
+                    if (data.equals(Constants.PRODUCT) || data.equals(Constants.PRODUCT_Ru)) {
+                        level = 2;
+                    }
+                    if (data.equals(Constants.WITH_US) || data.equals(Constants.WITH_US_Ru)) {
+                        level = 4;
+                    }
+                    if (data.equals(Constants.ORDER) || data.equals(Constants.ORDER_Ru)) {
+                        level = 11;
+                    }
 
+                    if (data.equals(Constants.orqaga) || data.equals(Constants.nazad)) {
+                        if (level == 1) {
+                            level = 99;
+                        } else {
+                            level = 1;
+                        }
+                    }
+                    if (data.equals(Constants.quatro)) {
+                        level = 3;
+                    }
+                    if (data.equals(Constants.termo65)) {
+                        level = 6;
+                    }
+                    if (data.equals(Constants.termo78)) {
+                        level = 7;
+                    }
+                    if (data.equals(Constants.chempion)) {
+                        level = 10;
+                    }
+                    if (data.equals(Constants.engerl7000)) {
+                        level = 9;
+                    }
+                    if (data.equals(Constants.engerl7600)) {
+                        level = 8;
+                    }
+                    if (data.equals(Constants.trio)) {
+                        level = 5;
+                    }
+
+                }
             }
         }
         if (update.hasCallbackQuery()) {
@@ -221,29 +216,36 @@ public class Bot extends TelegramLongPollingBot {
                     execute(botService.chempion(update, Constants.olchov_ru));
                 break;
             case 11:
-                if (uz)
-                    execute(botService.order(update, Constants.enter_name));
-                else
-                    execute(botService.order(update, Constants.enter_name_ru));
-                level = 12;
+                if (!update.getMessage().getChat().getId().toString().startsWith("-")){
+                    if (uz)
+                        execute(botService.order(update, Constants.enter_name));
+                    else
+                        execute(botService.order(update, Constants.enter_name_ru));
+                    level = 12;
+                }
                 break;
             case 12:
                 if (update.hasMessage()) {
-                    if (update.getMessage().hasText()) {
-                        name = update.getMessage().getText();
-                        if (uz)
-                            execute(botService.shareContact(update, Constants.SHARE_CONTACT_UZ, Constants.SHARE_CONTACT_TEXT_UZ));
-                        else
-                            execute(botService.shareContact(update, Constants.SHARE_CONTACT_RU, Constants.SHARE_CONTACT_TEXT_RU));
-                        level = 13;
+                    if (!update.getMessage().getChat().getId().toString().startsWith("-")){
+                        if (update.getMessage().hasText()) {
+                            name = update.getMessage().getText();
+                            if (uz)
+                                execute(botService.shareContact(update, Constants.SHARE_CONTACT_UZ, Constants.SHARE_CONTACT_TEXT_UZ));
+                            else
+                                execute(botService.shareContact(update, Constants.SHARE_CONTACT_RU, Constants.SHARE_CONTACT_TEXT_RU));
+                            level = 13;
+                        }
                     }
                 }
                 break;
             case 13:
-                if (uz)
-                    execute(botService.saveContact_Uz(update, name, Constants.FINISH_TEXT_UZ));
-                else
-                    execute(botService.saveContact_Ru(update, name, Constants.FINISH_TEXT_RU));
+                if (!update.getMessage().getChat().getId().toString().startsWith("-")){
+                    if (uz)
+                        execute(botService.saveContact_Uz(update, name, Constants.FINISH_TEXT_UZ));
+                    else
+                        execute(botService.saveContact_Ru(update, name, Constants.FINISH_TEXT_RU));
+                }
+                level = 0;
                 break;
         }
     }
@@ -256,6 +258,7 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     public String getBotToken() {
         return "1677304570:AAG7y0TMb4XUBD1nvcbQxuwuryUJTbXeblg";
+//        1677304570:AAG7y0TMb4XUBD1nvcbQxuwuryUJTbXeblg imzoandijon_BOT
 //        1176443139:AAFSkJNZVUUrumJUNhII2AAiKvoc9alcmmk myFood1_bot
 //        1633731938:AAEKj4tysrkx9gMxh01dMNYTLFNNqhGQvOA tests01_bot
     }
