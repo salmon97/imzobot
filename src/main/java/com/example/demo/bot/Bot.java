@@ -252,12 +252,12 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return "imzoandijon_BOT";
+        return "tests01_bot";
     }
 
     @Override
     public String getBotToken() {
-        return "1677304570:AAG7y0TMb4XUBD1nvcbQxuwuryUJTbXeblg";
+        return "1633731938:AAEKj4tysrkx9gMxh01dMNYTLFNNqhGQvOA";
 //        1677304570:AAG7y0TMb4XUBD1nvcbQxuwuryUJTbXeblg imzoandijon_BOT
 //        1176443139:AAFSkJNZVUUrumJUNhII2AAiKvoc9alcmmk myFood1_bot
 //        1633731938:AAEKj4tysrkx9gMxh01dMNYTLFNNqhGQvOA tests01_bot
